@@ -2,7 +2,7 @@ import io
 import streamlit as st
 from huggingface_hub import InferenceClient
 import config
-st.set_page_config(page_title="Avatar Creator" page_icon="🛠️", layout="centered")
+st.set_page_config(page_title="Avatar Creator", page_icon="🛠️", layout="centered")
 OPTIONS = {
 
 "avatar type": ["boy hero", "girl hero", "wizard", "robot explorer", "space warrior", "animal adventurer","penguin"],
@@ -19,7 +19,7 @@ OPTIONS = {
 
 }
 
-client=InferenceClient(api_key=config.HF_API KEY)
+client=InferenceClient(api_key=config.HF_API_KEY)
 st.session_state.setdefault("generated_image", None)
 st.title("Avatar Creator")
 st.write("Create your own personal avatar with the help of AI")
@@ -37,7 +37,7 @@ if mode=="Use set options":
     final_prompt=f"{prompt},{extra}"if extra else prompt
 else:
     final_prompt=st.text_area(
-        "Write your own prompt"
+        "Write your own prompt",
         placeholder="A Potato with a hat...",
         height=150,
     ).strip()
@@ -57,7 +57,7 @@ if st.button("Create avatar"):
                 )
                 st.success("Avatar Created")
 
-            except:
+            except Exception as e:
                 st.error("The computer went kaboom kaboom kaboom, something went wrong: {e}")
 if st.session_state.generated_image:
     st.image(st.session_state.generated_image, caption="Your AI avatar", use_container_width=True)
