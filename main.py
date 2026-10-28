@@ -29,11 +29,21 @@ mode=st.selectbox("Choose prompt mode",["Use set options","Write custom prompt"]
 if mode=="Use set options":
     values={k: st.selectbox(f"Choose {k}",v)for k,v in OPTIONS.items()}
     extra=st.text_input("Extra Information (optional)",placeholder="Example: Give it a wand or something I don't care").strip()
-    prompt=(f"A kid friendly{values['avatar type']}, "
-            f"with {values['hairstyle']}, "
-            f"wearing {values['outfit']}, "
-            f"with a {values['expression']} expression, "
-            f"{values['art style']}, colorful, and super detailed, image")
+    prompt = (
+
+        f"A kid-friendly {values['avatar type']}, "
+
+        f"with {values['hairstyle']}, "
+
+        f"wearing {values['outfit']}, "
+
+        f"with a {values['expression']} expression, "
+
+        f"in a {values['background']} background, "
+
+        f"{values['art style']}, colorful and super detailed."
+
+    )
     final_prompt=f"{prompt},{extra}"if extra else prompt
 else:
     final_prompt=st.text_area(
@@ -58,7 +68,7 @@ if st.button("Create avatar"):
                 st.success("Avatar Created")
 
             except Exception as e:
-                st.error("The computer went kaboom kaboom kaboom, something went wrong: {e}")
+                st.error(f"The computer went kaboom kaboom kaboom, something went wrong: {e}")
 if st.session_state.generated_image:
     st.image(st.session_state.generated_image, caption="Your AI avatar", use_container_width=True)
     buffer=io.BytesIO()
@@ -67,5 +77,5 @@ if st.session_state.generated_image:
         "Download",
         data=buffer.getvalue(),
         file_name="avatar.png",
-        mine="image/png",
+        mime="image/png",
     )
